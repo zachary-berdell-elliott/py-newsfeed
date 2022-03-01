@@ -1,3 +1,4 @@
+from app.routes import home
 from flask import Flask
 import os
 from dotenv import load_dotenv
@@ -13,5 +14,7 @@ def create_app(test_config=None):
   @app.route('/hello')
   def hello():
     return 'hello world'
+
+  app.register_blueprint(home)
     
   return app
