@@ -15,8 +15,8 @@ class User(Base):
 
   @validates('email')
   def email_validator(self, key, email):
-    emailInput = re.match(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+', email)
-    return emailInput
+    assert re.match(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', email) != None
+    return email
 
   @validates('password')
   def password_validator(self, key, password):
