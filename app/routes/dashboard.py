@@ -6,6 +6,7 @@ bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
 @bp.route('/')
 def dash():
+  db = get_db()
   posts = (
     db.query(Post)
     .filter(Post.user_id == session.get('user_id'))
@@ -15,13 +16,10 @@ def dash():
 
   return render_template(
     'dashboard.html',
-    post=posts,
-    loggedIn=session.get('loggedIn')
+    loggedIn=session.get('loggedIn'),
+    posts=posts
   )
 
 @bp.route('/edit/<id>')
 def edit(id):
-  return render_template(
-    'edit-post.html',
-    loggedIn=session.get('loggedIn')
-  )
+  return render_template('edit-post.html')
