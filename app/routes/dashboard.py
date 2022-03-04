@@ -8,4 +8,7 @@ def dash():
 
 @bp.route('/edit/<id>')
 def edit(id):
-  return render_template('edit-post.html')
+  return render_template(
+    'edit-post.html',
+    loggedIn=session.get('loggedIn')
+  )
