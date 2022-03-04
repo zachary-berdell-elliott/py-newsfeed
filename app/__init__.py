@@ -1,4 +1,4 @@
-from app.routes import home, dashboard
+from app.routes import home, dashboard, api
 from flask import Flask
 import os
 from dotenv import load_dotenv
@@ -22,6 +22,7 @@ def create_app(test_config=None):
 
   app.register_blueprint(home)
   app.register_blueprint(dashboard)
+  app.register_blueprint(api)
   init_db(app)
     
   return app
