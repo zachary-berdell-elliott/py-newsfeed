@@ -23,23 +23,6 @@ def login():
   
   return redirect('/dashboard')
 
-@bp.route('/users/login', methods=['POST'])
-def login():
-  data = request.get_json()
-  db = get_db()
-
-  try:
-    user = db.query(User).filter(User.email == data['email']).one()
-  except:
-    print(sys.exc_info()[0])
-    return jsonify(message = 'Incorrect credentials'), 400
-
-@bp.route('/users/logout', methods=['POST'])
-def logout():
-  # remove session variables
-  session.clear()
-  return '', 204
-
 @bp.route('/post/<id>')
 def single(id):
   # get single post by id
