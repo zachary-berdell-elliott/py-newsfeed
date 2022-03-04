@@ -1,4 +1,5 @@
-from flask import Blueprint, request, jsonify
+import sys
+from flask import Blueprint, request, jsonify, session
 from app.models import User
 from app.db import get_db
 
@@ -9,15 +10,25 @@ def signup():
   data = request.get_json()
   db = get_db()
   
-  #Creates a new user
-  newUser = User(
-      username = data['username'],
-      email = data['email'],
-      password = data['password']
-  )
+  try:
+    #Creates a new user
+    newUser = User(
+        username = data['username'],
+        email = data['email'],
+        password = data['password']
+    )
 
-  # Saves user to the database
-  db.add(newUser)
-  db.commit()
+    # Saves user to the database
+    db.add(newUser)
+    db.commit()
+  except:
+    print(sys.exc_info()[0])
 
+    #Sends user error message and rollsback db
+    db.rollback()
+    return jsonify(message = 'Signup failed'), 500
+
+  session.clear()
+  session['user_id'] = newUser.id
+  session['loggedIn'] = True
   return jsonify(id = newUser.id)
