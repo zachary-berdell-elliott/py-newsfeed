@@ -22,3 +22,9 @@ class User(Base):
   def password_validator(self, key, password):
     assert len(password) > 8
     return bcrypt.hashpw(password.encode('utf-8'), salt)
+
+  def verify_password(self, password):
+    return bcrypt.checkpw(
+      password.encode('utf-8'),
+      self.password.encode('utf-8')
+    )
